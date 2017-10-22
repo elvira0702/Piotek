@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {UserInfoService} from './user/user-info.service';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +6,7 @@ import {UserInfoService} from './user/user-info.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private initStore = true;
 
-  constructor(private userInfoService: UserInfoService) {
-    if (this.initStore) {
-      userInfoService.buildStorage();
-      this.initStore = false;
-    }
+  constructor() {
   }
 }

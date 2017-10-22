@@ -1,0 +1,61 @@
+<div class="register-box">
+  <div class="alert alert-warning" hidden>
+    <span><i class="icon fa fa-warning"></i>{{warning}}</span>
+  </div>
+  <div class="register-logo">
+    <b>百硕</b>电脑
+  </div>
+
+  <div class="register-box-body">
+    <p class="login-box-msg">注册账号</p>
+
+    <form [formGroup]="formModel" (ngSubmit)="register()">
+      <div class="form-group has-feedback" [class.has-error]="formModel.get('id').invalid && formModel.get('id').touched">
+        <input type="text" class="form-control" formControlName="id" placeholder="工号">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        <div class="help-block">
+          {{formErrors['id']}}
+        </div>
+      </div>
+      <div formGroupName="passwordInfo" [class.has-error]="formModel.get('passwordInfo').invalid && formModel.get('passwordInfo.password').valid && formModel.get('passwordInfo.pConfirm').valid">
+        <div class="form-group has-feedback"
+             [class.has-error]="formModel.get('passwordInfo.password').invalid && formModel.get('passwordInfo.password').touched">
+          <input type="password" class="form-control" formControlName="password" (keydown)="pwValChanged()" placeholder="密码">
+          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          <div class="help-block">
+            {{formErrors['passwordInfo.password']}}
+          </div>
+        </div>
+        <div class="form-group has-feedback" [class.has-error]="formModel.get('passwordInfo.pConfirm').invalid && formModel.get('passwordInfo.pConfirm').touched">
+          <input type="password" class="form-control" formControlName="pConfirm" placeholder="确认密码">
+          <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+          <div class="help-block">
+            {{formErrors['passwordInfo.pConfirm']}}
+          </div>
+        </div>
+        <div class="help-block" *ngIf="formModel.get('passwordInfo.password').valid && formModel.get('passwordInfo.pConfirm').valid">
+          {{formErrors['passwordInfo']}}
+        </div>
+        <div class="help-block" style="color: red" *ngIf="auth?.hasError">{{auth.errMsg}}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="checkbox">
+            <label>
+              <input formControlName="agreeState" type="checkbox">我同意<a href="#">百硕电脑注册协议</a>
+            </label>
+          </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">注册</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+
+    <a href="javascript:;" class="text-center" (click)="nav()">已有账号？去登陆</a>
+  </div>
+  <!-- /.form-box -->
+</div>
+<!-- /.register-box -->

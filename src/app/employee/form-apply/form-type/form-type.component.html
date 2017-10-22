@@ -1,0 +1,135 @@
+<div class="min-height">
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">表单号：{{formNumber}}</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form [formGroup]="quitForm" class="form-horizontal" (ngSubmit)="save()" [hidden]="type!='quit'">
+          <div class="box-body">
+            <div class="form-group" [class.has-error]="quitForm.get('quitDate').invalid && quitForm.get('quitDate').touched">
+              <div class="col-xs-12 col-md-4">
+                <label>离职日期：</label>
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right" formControlName="quitDate" id="datepicker">
+                </div>
+                <div class="help-block" *ngIf="quitForm.getError('required','quitDate') && quitForm.get('quitDate').touched">请填写离职日期！</div>
+                <div class="help-block" *ngIf="quitForm.getError('pattern','quitDate')">请按格式填写日期！</div>
+              </div>
+              <!-- /.input group -->
+            </div>
+            <!-- /.form group -->
+            <div class="form-group">
+              <div class="col-xs-12 col-md-4">入职日期：{{hiredate}}</div>
+              <div class="col-xs-12 col-md-4">在职时间：{{atJob}}年</div>
+            </div>
+            <br>
+            <div class="form-group" [class.has-error]="quitForm.get('quitReason').invalid && quitForm.get('quitReason').touched">
+              <div class="col-xs-12">
+                <label>离职原因</label>
+                <textarea class="form-control" formControlName="quitReason" rows="3"></textarea>
+                <div class="help-block" *ngIf="quitForm.getError('required','quitReason') && quitForm.get('quitReason').touched">请填写离职原因!</div>
+              </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+
+          <div class="box-footer">
+            <button type="submit" [disabled]="!quitForm.valid" class="btn btn-primary">提交</button>
+          </div>
+        </form>
+
+        <form [formGroup]="outForm" class="form-horizontal" [hidden]="type!='out'" (ngSubmit)="save()">
+          <div class="box-body">
+            <div class="form-group" formGroupName="timeArea" [class.has-error]="outForm.getError('time','timeArea')">
+              <div class="col-xs-12 col-md-4">
+                <label>外出时间</label>
+                <div class="bootstrap-timepicker">
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-clock-o"></i>
+                    </div>
+                    <input type="text" class="form-control timepicker" id="outTime" formControlName="outTime" placeholder="请选择外出时间">
+                  </div>
+                  <!-- /.input group -->
+                </div>
+              </div>
+              <div class="col-xs-12 col-md-4">
+                <label>返回时间</label>
+                <div class="bootstrap-timepicker">
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-clock-o"></i>
+                    </div>
+                    <input type="text" class="form-control timepicker" id="returnTime" formControlName="returnTime" placeholder="请选择返回时间">
+                  </div>
+                  <!-- /.input group -->
+                </div>
+              </div>
+              <div class="col-xs-12 help-block" *ngIf="outForm.getError('time','timeArea')">{{outForm.getError('time','timeArea')?.desc}}</div>
+            </div>
+            <br>
+            <div class="form-group" [class.has-error]="outForm.get('outFor').invalid && outForm.get('outFor').touched">
+              <div class="col-xs-12">
+                <label>外出事由</label>
+                <textarea class="form-control" formControlName="outFor" rows="3"></textarea>
+                <div class="help-block" *ngIf="outForm.getError('required','outFor') && outForm.get('outFor').touched">请填写外出事由！</div>
+              </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+
+          <div class="box-footer">
+            <button type="submit" [disabled]="!outForm.valid" class="btn btn-primary">提交</button>
+          </div>
+        </form>
+
+        <form [formGroup]="holiForm" class="form-horizontal" role="form" [hidden]="type!='holiday'" (ngSubmit)="save()">
+          <div class="box-body">
+            <div class="form-group">
+              <div class="col-xs-12 col-md-3">
+                <label>请假类型</label>
+                <select class="form-control" [value]="holitype">
+                  <option *ngFor="let x of holiType;let i=index;" (click)="holitype=holiType[i]">{{x}}</option>
+                </select>
+              </div>
+              <div class="col-xs-12 col-md-7">
+                <!-- Date and time range -->
+                <label>设置请假时间</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right" formControlName="holiTime" id="reservationtime">
+                </div>
+                <!-- /.input group -->
+              </div>
+            </div>
+            <br>
+            <div class="form-group" [class.has-error]="holiForm.get('holiFor').invalid && holiForm.get('holiFor').touched">
+              <div class="col-xs-12">
+                <label>申请理由</label>
+                <textarea class="form-control" formControlName="holiFor" rows="3"></textarea>
+                <div class="help-block" *ngIf="holiForm.getError('required','holiFor') && holiForm.get('holiFor').touched">请填写申请理由！</div>
+              </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+
+          <div class="box-footer">
+            <button type="submit" [disabled]="!holiForm.valid" class="btn btn-primary">提交</button>
+          </div>
+        </form>
+      </div>
+      <!-- /.box -->
+    </div>
+  </div>
+</div>

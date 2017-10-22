@@ -1,0 +1,91 @@
+<div class="row min-height">
+  <div class="col-xs-12">
+    <div class="box" [hidden]="showDetail">
+      <div class="box-header">
+        <h3 class="box-title">申请列表</h3>
+
+        <div class="box-tools">
+          <div class="box-tools pull-right">
+            <ul class="pagination pagination-sm inline">
+              <li [class.disabled]="page===1"><a href="javascript:;" (click)="changePage('prev')">&laquo;</a></li>
+              <li class="active"><a href="javascript:;" *ngIf="formList?.length===0">1</a></li>
+              <li *ngFor="let pg of pageArr;let i=index" [class.active]="i+1===page"><a href="javascript:;" (click)="changePage(i+1)">{{i+1}}</a></li>
+              <li [class.disabled]="page===pageArr.length || pageArr.length===0"><a href="javascript:;" (click)="changePage('next')">&raquo;</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body table-responsive no-padding">
+        <table class="table table-hover">
+          <tr>
+            <th>表单号</th>
+            <th>表单类型</th>
+            <th>处理进度</th>
+            <th>申请理由</th>
+          </tr>
+          <tr *ngFor="let list of pageList;">
+            <td>{{list.id}}</td>
+            <td>{{list.type}}</td>
+            <td><span class="label"
+                      [ngClass]="{'label-warning':list.state==='申请中','label-success':list.state==='已完成','label-danger':list.state==='已退回'}">{{list.state}}</span>
+            </td>
+            <td>{{list.reason}}</td>
+            <td>
+              <button class="btn btn-xs btn-warning" (click)="show(list)">查看</button>
+            </td>
+          </tr>
+        </table>
+        <div style="text-align: center" [hidden]="loading">加载中...</div>
+        <div style="text-align: center" *ngIf="formList?.length===0">暂无记录</div>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+    <div class="box" [hidden]="!showDetail">
+      <div class="box-header">
+        <h3 class="box-title">{{form.id}}</h3>
+        <button class="btn btn-xs btn-default pull-right" (click)="showDetail=false">返回</button>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body no-padding">
+        <table class="table table-condensed">
+          <tr>
+            <th style="width: 10px">#</th>
+            <th>表单项</th>
+            <th>表单信息</th>
+          </tr>
+          <tr>
+            <td>1.</td>
+            <td>表单类型</td>
+            <td>{{form.type}}</td>
+          </tr>
+          <tr>
+            <td>2.</td>
+            <td>时间</td>
+            <td>
+              {{form.time}}
+            </td>
+          </tr>
+          <tr>
+            <td>3.</td>
+            <td>申请原因</td>
+            <td>
+              {{form.reason}}
+            </td>
+          </tr>
+          <tr>
+            <td>4.</td>
+            <td>处理进度</td>
+            <td>
+              <span class="label"
+                    [ngClass]="{'label-warning':form.state==='申请中','label-success':form.state==='已完成','label-danger':form.state==='已退回'}">{{form.state}}</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+  </div>
+</div>

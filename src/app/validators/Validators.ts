@@ -38,5 +38,24 @@ export function dateValidator(group: FormGroup): any {
     const second = setDate.getTime() - currDate.getTime();
     valid = (second >= 0);
   }
-  return valid ? null : {date: {desc: '设定时间不可早于当前时间！'}};
+  return valid ? null : {date: {desc: '设定时间已到！'}};
+}
+
+export function timeValidator(group: FormGroup): any {
+  const outTime: FormControl = group.get('outTime') as FormControl;
+  const returnTime: FormControl = group.get('returnTime') as FormControl;
+  let valid = false;
+  if (outTime && returnTime) {
+    const outArr = outTime.value.substr(0, 5).split(':');
+    const returnArr = returnTime.value.substr(0, 5).split(':');
+    if (outTime.value.substr(-2, 2) === 'PM') {
+      outArr[0] = parseInt(outArr[0]) + 12;
+    }
+    if (returnTime.value.substr(-2, 2) === 'PM') {
+      returnArr[0] = parseInt(returnArr[0]) + 12;
+    }
+    valid = (outArr[0] + outArr[1]) <= (returnArr[0] + returnArr[1]);
+
+  }
+  return valid ? null : {time: {desc: '返回时间不能早于外出时间！'}};
 }

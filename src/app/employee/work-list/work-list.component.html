@@ -1,0 +1,108 @@
+<div class="min-height">
+<!-- TO DO List -->
+<div class="box box-primary todo" *ngIf="isList">
+  <div class="notodo" *ngIf="toDoList?.length===0">——————暂无待办内容！赶快添加吧！——————</div>
+  <div class="box-header">
+    <i class="ion ion-clipboard"></i>
+
+    <h3 class="box-title">待办清单</h3>
+
+    <div class="box-tools pull-right">
+      <ul class="pagination pagination-sm inline">
+        <li [class.disabled]="listPage===1"><a href="javascript:;" (click)="changePage('prev')">&laquo;</a></li>
+        <li class="active"><a href="javascript:;" *ngIf="toDoList?.length===0">1</a></li>
+        <li *ngFor="let page of pageArr;let i=index" [class.active]="i+1===listPage"><a href="javascript:;" (click)="changePage(i+1)">{{i+1}}</a></li>
+        <li [class.disabled]="listPage===pageArr.length || pageArr.length===0"><a href="javascript:;" (click)="changePage('next')">&raquo;</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- /.box-header -->
+  <div class="box-body" style="min-height: 350px">
+    <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+    <ul class="todo-list">
+      <li *ngFor="let todo of pageList;let i=index" [class.done]="todo.isDone">
+        <!-- drag handle -->
+        <span class="handle">
+          <i class="fa fa-ellipsis-v"></i>
+          <i class="fa fa-ellipsis-v"></i>
+        </span>
+        <!-- checkbox -->
+        <input type="checkbox" [checked]="todo.isDone" value="" (click)="toggleTodo(todo)">
+        <!-- todo text -->
+        <span class="text">{{todo.thing}}</span>
+        <!-- Emphasis label -->
+        <small [class]="'label '+timeGap[i][1]"><i class="fa fa-clock-o"></i> {{timeGap[i][0]}}</small>
+        <!-- General tools such as edit or delete-->
+        <div class="tools">
+          <i class="fa fa-edit" (click)="editToDo(todo)"></i>
+          <i class="fa fa-trash-o" (click)="deleteToDo(todo)"></i>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <!-- /.box-body -->
+  <div class="box-footer clearfix no-border">
+    <button type="button" class="btn btn-default pull-right" (click)="editToDo()"><i class="fa fa-plus"></i>添加
+    </button>
+  </div>
+
+</div>
+<!-- /.box -->
+
+<!-- general form elements -->
+<div class="box box-primary" [hidden]="isList">
+  <div class="box-header with-border">
+    <h3 class="box-title">编辑待办</h3>
+  </div>
+  <!-- /.box-header -->
+  <!-- form start -->
+  <form [formGroup]="toDoForm" (ngSubmit)="save()">
+    <div class="box-body">
+      <div class="form-group row" [class.has-error]="toDoForm.get('things').invalid&&toDoForm.get('things').dirty">
+        <label class="col-xs-12">事项内容</label>
+        <div class="col-xs-12">
+          <textarea class="form-control" formControlName="things" rows="2" placeholder="请输入内容"></textarea>
+          <div class="help-block" *ngIf="toDoForm.getError('required','things') && toDoForm.get('things').dirty">请填写待办内容！</div>
+          <div class="help-block" *ngIf="toDoForm.getError('maxlength','things')">待办内容不得多于20个字符！</div>
+        </div>
+      </div>
+      <div class="form-group row" formGroupName="setTime"  [class.has-error]="toDoForm.get('setTime').invalid || desc">
+        <label class="col-xs-12">完成时间</label>
+        <div class="col-xs-5 col-md-3" [class.has-error]="toDoForm.get('setTime.date').invalid">
+          <div class="input-group date">
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+            <input type="text" class="form-control" id="datepicker" formControlName="date" (click)="desc=null">
+          </div>
+          <div class="help-block" *ngIf="toDoForm.getError('required',['setTime','date'])">请填写待办完成日期！</div>
+          <div class="help-block" *ngIf="toDoForm.getError('pattern',['setTime','date'])">请按格式填写日期</div>
+          <div class="help-block" *ngIf="(toDoForm.getError('date','setTime')&&toDoForm.get('setTime.date').valid&&toDoForm.get('setTime.time').valid) || desc">{{toDoForm.getError('date','setTime')?.desc}}{{desc}}</div>
+        </div>
+        <div class="col-xs-5 col-md-3" [class.has-error]="toDoForm.get('setTime.time').invalid">
+          <div class="bootstrap-timepicker">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-clock-o"></i>
+                </div>
+                <input type="text" class="form-control timepicker" formControlName="time" placeholder="时:分" (input)="desc=null">
+              </div>
+              <!-- /.input group -->
+            </div>
+            <!-- /.form group -->
+          </div>
+          <div class="help-block" *ngIf="toDoForm.getError('required',['setTime','time'])">请填写待办完成时间！</div>
+          <div class="help-block" *ngIf="toDoForm.getError('pattern',['setTime','time'])">请按格式填写时间！</div>
+        </div>
+      </div>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+      <button type="submit" [disabled]="!toDoForm.valid" class="btn btn-primary">保存</button>
+      <button type="button" class="btn btn-default" (click)="isList=true">返回</button>
+    </div>
+  </form>
+</div>
+<!-- /.box -->
+</div>

@@ -1,0 +1,14 @@
+.todo{
+  position: relative;
+}
+.todo .notodo{
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  color: #b4b4b4;
+  text-align: center;
+}
+.todo .notodo hr{
+  width: 20%;
+  display: inline-block;
+}

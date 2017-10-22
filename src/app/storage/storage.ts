@@ -1,4 +1,4 @@
-// cookie
+
 export function setCookie(key, value, iDay) {
   const oDate = new Date();
   oDate.setDate(oDate.getDate() + iDay);
@@ -39,5 +39,3 @@ export function showlocalStorage(key) {
   const value = localStorage.getItem(key);
   return value ? value : false;
 }
-
-

@@ -22,10 +22,7 @@
         "styles.css",
         "../node_modules/admin-lte/bootstrap/css/bootstrap.min.css",
         "../node_modules/admin-lte/dist/css/AdminLTE.css",
-        "../node_modules/admin-lte/dist/css/skins/_all-skins.min.css",
-        "../node_modules/admin-lte/plugins/daterangepicker/daterangepicker.css",
-        "../node_modules/admin-lte/plugins/datepicker/datepicker3.css",
-        "../node_modules/admin-lte/plugins/timepicker/bootstrap-timepicker.min.css"
+        "../node_modules/admin-lte/dist/css/skins/_all-skins.min.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",

@@ -1,0 +1,47 @@
+<div class="login-box">
+  <div class="login-logo">
+    <b>百硕</b>电脑
+  </div>
+
+  <div class="login-box-body">
+    <p class="login-box-msg">用户登录</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="form-group has-feedback" [class.has-error]="loginForm.get('id').invalid && loginForm.get('id').touched">
+        <input type="text" class="form-control" formControlName="id" placeholder="工号">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        <div class="help-block">
+          {{formErrors['id']}}
+        </div>
+      </div>
+      <div class="form-group has-feedback" [class.has-error]="loginForm.get('password').invalid && loginForm.get('password').touched">
+        <input type="password" class="form-control" formControlName="password" placeholder="密码">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        <div class="help-block">
+          {{formErrors['password']}}
+        </div>
+        <div class="help-block" style="color: red" *ngIf="auth?.hasError">
+          {{auth?.errMsg}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="checkbox">
+            <label>
+              <input formControlName="rememberState" type="checkbox">记住我
+            </label>
+          </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+
+    <a href="javascript:;" class="text-center" (click)="nav()">新用户？去注册</a>
+  </div>
+  <!-- /.form-box -->
+</div>
+<!-- /.login-box -->
