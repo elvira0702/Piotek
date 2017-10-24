@@ -1,10 +1,10 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {FormService} from '../form.service';
 import {timeValidator} from '../../../validators/Validators';
 import {Auth, Form, UserInfo} from '../../../domain/entities';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {AppState} from '../../../domain/state';
 import {Store} from '@ngrx/store';
 
@@ -15,7 +15,7 @@ declare var $: any;
   templateUrl: './form-type.component.html',
   styleUrls: ['./form-type.component.css']
 })
-export class FormTypeComponent implements OnInit, DoCheck {
+export class FormTypeComponent implements OnInit, DoCheck, OnDestroy {
 
   public type;
   auth$: Observable<Auth>;
@@ -39,6 +39,7 @@ export class FormTypeComponent implements OnInit, DoCheck {
   public quitForm: FormGroup;
   public outForm: FormGroup;
   public holiForm: FormGroup;
+  subscription: Subscription;
 
   constructor(private routeInfo: ActivatedRoute, private fb: FormBuilder,
               private formService: FormService, private store$: Store<AppState>) {
@@ -59,11 +60,13 @@ export class FormTypeComponent implements OnInit, DoCheck {
       holiFor: ['', Validators.required]
     });
     this.auth$ = store$.select(appState => appState.auth);
-    this.auth$.subscribe(auth => {
-      this.currUser = auth.user;
-      this.hiredate = auth.user.hiredate;
-      const arr = this.hiredate.split('-');
-      this.atJob = (this.date.getFullYear() - arr[0]) + (this.date.getMonth() + 1 - arr[1]) * 0.1
+    this.subscription = this.auth$.subscribe(auth => {
+      if (auth.user) {
+        this.currUser = auth.user;
+        this.hiredate = auth.user.hiredate;
+        const arr = this.hiredate.split('-');
+        this.atJob = (this.date.getFullYear() - arr[0]) + (this.date.getMonth() + 1 - arr[1]) * 0.1;
+      }
     });
   }
 
@@ -107,6 +110,10 @@ export class FormTypeComponent implements OnInit, DoCheck {
       this.holiTime = $('#reservationtime').val();
       this.holiForm.get('holiTime').reset(this.holiTime);
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   save() {

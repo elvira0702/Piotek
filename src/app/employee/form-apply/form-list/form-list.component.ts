@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormService} from '../form.service';
 import {isNumber} from 'util';
 import {AppState} from '../../../domain/state';
 import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {FETCH_FROM_API} from '../../../actions/form.actions';
 import {Form} from '../../../domain/entities';
 
@@ -12,11 +12,12 @@ import {Form} from '../../../domain/entities';
   templateUrl: './form-list.component.html',
   styleUrls: ['./form-list.component.css']
 })
-export class FormListComponent implements OnInit {
+export class FormListComponent implements OnInit, OnDestroy {
   public forms: Observable<Form[]>;
   public formList: Form[];
   public pageList: Form[];
   public form: Form;
+  subscription: Subscription;
   pageArr: Array<number> = [];
   page = 1;
   loading = false;
@@ -31,15 +32,22 @@ export class FormListComponent implements OnInit {
         this.store$.dispatch({type: FETCH_FROM_API, payload: forms});
         return this.store$.select('forms');
       }).startWith([]);
-    this.forms.subscribe(formList =>{
-      this.formList = formList;
-      this.formList.reverse();
-      this.pageArr.length = formList.length;
+    this.subscription = this.forms.subscribe(formList => {
+      this.formList = formList.sort((a, b) => {
+        return b.id.localeCompare(a.id);
+      });
+      this.loading = true;
+      this.pageArr.length = Math.ceil(formList.length / 10);
       this.getPageList();
     })
   }
+  ngOnDestroy(){
+    if (this.subscription != undefined) {
+      this.subscription.unsubscribe();
+    }
+  }
 
-  getPageList(){
+  getPageList() {
     const formList = this.formList;
     if (this.page === this.pageArr.length) {
       this.pageList = formList.slice((this.page - 1) * 10, formList.length)
@@ -48,8 +56,8 @@ export class FormListComponent implements OnInit {
     }
   }
 
-  changePage(value:any){
-    if(isNumber(value)) {
+  changePage(value: any) {
+    if (isNumber(value)) {
       this.page = value;
       this.getPageList();
       return;
@@ -58,7 +66,7 @@ export class FormListComponent implements OnInit {
       this.page -= 1;
       this.getPageList();
       return;
-    } else if (value === 'next' && this.page!=this.pageArr.length) {
+    } else if (value === 'next' && this.page != this.pageArr.length) {
       this.page += 1;
       this.getPageList();
     }

@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {AppState} from '../../domain/state';
 import {Store} from '@ngrx/store';
 import {Auth, UserInfo} from '../../domain/entities';
@@ -12,13 +12,14 @@ import {UserService} from '../../core/user.service';
   templateUrl: './self-info.component.html',
   styleUrls: ['./self-info.component.css']
 })
-export class SelfInfoComponent implements OnInit {
+export class SelfInfoComponent implements OnInit, OnDestroy {
 
   myInfoForm: FormGroup;
   aboutMeForm: FormGroup;
   auth$: Observable<Auth>;
   currUser: UserInfo;
   edit = false;
+  subscription: Subscription;
 
   constructor(private fb: FormBuilder, private store$: Store<AppState>, private userService: UserService) {
   }
@@ -35,21 +36,27 @@ export class SelfInfoComponent implements OnInit {
       tel: [''],
       email: ['']
     });
-    this.auth$ = this.store$.select(appState=>appState.auth);
-    this.auth$.subscribe(auth=>{
-      this.currUser = auth.user;
-      this.myInfoForm.reset({
-        password: [this.currUser.password],
-        tel: [this.currUser.tel],
-        email: [this.currUser.email]
-      });
-      this.aboutMeForm.reset({
-        edu: [this.currUser.edu],
-        loc: [this.currUser.loc],
-        skill: [this.currUser.skill],
-        motto: [this.currUser.motto]
-      });
+    this.auth$ = this.store$.select(appState => appState.auth);
+    this.subscription = this.auth$.subscribe(auth => {
+      if (auth.user) {
+        this.currUser = auth.user;
+        this.myInfoForm.reset({
+          password: [auth.user.password],
+          tel: [auth.user.tel],
+          email: [auth.user.email]
+        });
+        this.aboutMeForm.reset({
+          edu: [auth.user.edu],
+          loc: [auth.user.loc],
+          skill: [auth.user.skill],
+          motto: [auth.user.motto]
+        });
+      }
     })
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   save() {
@@ -69,7 +76,7 @@ export class SelfInfoComponent implements OnInit {
           isChange = true;
         }
       }
-      if (isChange){
+      if (isChange) {
         this.userService.updateUser(this.currUser);
       }
     }

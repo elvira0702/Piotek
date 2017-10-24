@@ -5,7 +5,7 @@ import {AppState} from '../../domain/state';
 import {Observable} from 'rxjs';
 import {Todo} from '../../domain/entities';
 import {ADD_TODO, REMOVE_TODO, TOGGLE_TODO, UPDATE_TODO} from '../../actions/todo.actions';
-import { UUID } from 'angular-uuid';
+import {UUID} from 'angular-uuid';
 
 @Injectable()
 export class TodoService {
@@ -29,24 +29,25 @@ export class TodoService {
       todo.userId = userId;
       todo.id = 0;
       return this.http.post(this.api_url, JSON.stringify(todo), {headers: this.headers})
-        .map(res => res.json() as Todo);
+        .map(res => {
+          todo.id = res.json() as number;
+          return todo;
+        });
     }).subscribe(todo => {
       this.store$.dispatch({type: ADD_TODO, payload: todo});
     })
   }
 
   updateTodo(todo: Todo): void {
-    const url = `${this.api_url}/${todo.id}`;
-    this.http.put(url, JSON.stringify(todo), {headers: this.headers})
+    this.http.put(this.api_url, JSON.stringify(todo), {headers: this.headers})
       .mapTo(todo).subscribe(todo => {
       this.store$.dispatch({type: UPDATE_TODO, payload: todo});
     })
   }
 
   toggleTodo(todo: Todo): void {
-    const url = `${this.api_url}/${todo.id}`;
-    let updatedTodo = Object.assign({}, todo, {completed: !todo.isDone});
-    this.http.put(url, JSON.stringify(todo), {headers: this.headers})
+    let updatedTodo = Object.assign({}, todo, {isDone: !todo.isDone});
+    this.http.put(this.api_url, JSON.stringify(updatedTodo), {headers: this.headers})
       .mapTo(updatedTodo).subscribe(todo => {
       this.store$.dispatch({type: TOGGLE_TODO, payload: updatedTodo});
     })

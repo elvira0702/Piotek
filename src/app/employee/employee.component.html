@@ -24,7 +24,7 @@
         <!-- Optionally, you can add icons to the links -->
         <li *ngFor="let menu of menus" [class.active]="title[0]===menu.title"
         >
-        <a href="javascript:;" [routerLink]="menu.link" [queryParams]="{id:currId}"><i [class]='menu.icon'></i><span>{{menu.title}}</span>
+        <a href="javascript:;" [routerLink]="menu.link"><i [class]='menu.icon'></i><span>{{menu.title}}</span>
           <span *ngIf="menu.children.length!=0" class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
             </span>

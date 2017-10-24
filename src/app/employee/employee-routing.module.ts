@@ -17,7 +17,7 @@ const employeeRoutes: Routes = [
     children: [
       {path: '', redirectTo: '/employee/home', pathMatch: 'full'},
       {path: 'home', component: HomeComponent},
-      {path: 'user-list/:dep', component: UserListComponent},
+      {path: 'user-list', component: UserListComponent},
       {
         path: 'form-apply', component: FormApplyComponent,
         children: [

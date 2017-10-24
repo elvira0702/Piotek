@@ -44,7 +44,7 @@
     <!-- /.box -->
     <div class="box" [hidden]="!showDetail">
       <div class="box-header">
-        <h3 class="box-title">{{form.id}}</h3>
+        <h3 class="box-title">{{form?.id}}</h3>
         <button class="btn btn-xs btn-default pull-right" (click)="showDetail=false">返回</button>
       </div>
       <!-- /.box-header -->
@@ -58,20 +58,20 @@
           <tr>
             <td>1.</td>
             <td>表单类型</td>
-            <td>{{form.type}}</td>
+            <td>{{form?.type}}</td>
           </tr>
           <tr>
             <td>2.</td>
             <td>时间</td>
             <td>
-              {{form.time}}
+              {{form?.time}}
             </td>
           </tr>
           <tr>
             <td>3.</td>
             <td>申请原因</td>
             <td>
-              {{form.reason}}
+              {{form?.reason}}
             </td>
           </tr>
           <tr>
@@ -79,7 +79,7 @@
             <td>处理进度</td>
             <td>
               <span class="label"
-                    [ngClass]="{'label-warning':form.state==='申请中','label-success':form.state==='已完成','label-danger':form.state==='已退回'}">{{form.state}}</span>
+                    [ngClass]="{'label-warning':form?.state==='申请中','label-success':form?.state==='已完成','label-danger':form?.state==='已退回'}">{{form?.state}}</span>
             </td>
           </tr>
         </table>

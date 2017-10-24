@@ -31,7 +31,6 @@ export class FormService {
   }
 
   addForm(form: Form) {
-    let body = JSON.stringify(form);
     this.auth$.flatMap(userId => {
       return this.http.post(this.api_url, JSON.stringify(form), {headers: this.headers})
         .map(res => res.json() as Form);

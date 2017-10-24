@@ -5,6 +5,8 @@ import {AuthService} from '../core/auth.service';
 import {Auth} from '../domain/entities';
 import {AppState} from '../domain/state';
 import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {savelocalStorage, showlocalStorage} from '../storage/storage';
 
 declare var $: any;
 
@@ -16,7 +18,7 @@ declare var $: any;
 export class LoginComponent implements OnInit, DoCheck {
 
   public loginForm: FormGroup;
-  auth: Auth;
+  auth: Observable<Auth>;
 
   // 存储错误信息
   formErrors = {
@@ -33,8 +35,7 @@ export class LoginComponent implements OnInit, DoCheck {
     }
   };
 
-  constructor(public fb: FormBuilder, private router: Router, private authService: AuthService,
-              private store$: Store<AppState>) {
+  constructor(public fb: FormBuilder, private router: Router, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -67,9 +68,7 @@ export class LoginComponent implements OnInit, DoCheck {
     const password = this.loginForm.get('password').value;
     if (this.loginForm.valid) {
       this.authService.loginWithCredentials(userId, password);
-      this.authService.getAuth().subscribe(auth=>{
-        this.auth = auth;
-      })
+      this.auth = this.authService.getAuth();
     }
   }
 

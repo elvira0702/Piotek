@@ -1,9 +1,9 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {dateValidator} from '../../validators/Validators';
 import {isNumber} from 'util';
 import {Todo} from '../../domain/entities';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {TodoService} from './todo.service';
 import {AppState} from '../../domain/state';
 import {Store} from '@ngrx/store';
@@ -16,7 +16,7 @@ declare var $: any;
   templateUrl: './work-list.component.html',
   styleUrls: ['./work-list.component.css']
 })
-export class WorkListComponent implements OnInit, DoCheck {
+export class WorkListComponent implements OnInit, DoCheck, OnDestroy {
 
   toDoForm: FormGroup;
   isList = true;
@@ -35,6 +35,7 @@ export class WorkListComponent implements OnInit, DoCheck {
   userId: string;
   editId;
   todos: Observable<Todo[]>;
+  subscription: Subscription;
 
   constructor(private fb: FormBuilder, private todoService: TodoService,
               private store$: Store<AppState>) {
@@ -53,10 +54,11 @@ export class WorkListComponent implements OnInit, DoCheck {
         this.store$.dispatch({type: FETCH_FROM_API, payload: todos});
         return this.store$.select('todos');
       }).startWith([]);
-    this.todos.subscribe(todos => {
-      this.pageArr.length = Math.ceil(todos.length/8);
-      this.toDoList = todos;
-      this.toDoList.reverse();
+    this.subscription = this.todos.subscribe(todos => {
+      this.pageArr.length = Math.ceil(todos.length / 8);
+      this.toDoList = todos.sort((a, b) => {
+        return b.id - a.id;
+      });
       this.getPageList();
     });
   }
@@ -80,6 +82,10 @@ export class WorkListComponent implements OnInit, DoCheck {
       this.time = $('.timepicker').val();
       this.toDoForm.get('setTime.time').reset(this.time);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   getPageList() {
@@ -139,7 +145,7 @@ export class WorkListComponent implements OnInit, DoCheck {
       const time = this.toDoForm.get('setTime.time').value;
       this.toDo = {
         id: 0,
-        userId: '',
+        userId: this.userId,
         date: date,
         time: time,
         thing: things,
@@ -160,6 +166,7 @@ export class WorkListComponent implements OnInit, DoCheck {
   editToDo(todo?: Todo) {
     this.isList = false;
     if (todo) {
+      this.userId = todo.userId;
       this.editId = todo.id;
       this.things = todo.thing;
       this.date = todo.date;

@@ -32,16 +32,13 @@ export class UserService {
   }
 
   addUser(user: UserInfo): Observable<UserInfo> {
-    return this.http.post(this.api_url, JSON.stringify(user), {headers: this.headers})
-      .map(res => {
-        let Users = res.json() as UserInfo[];
-        return (Users.length > 0) ? Users[0] : null;
-      }).catch(this.handleError);
+    return this.http.post(this.api_url, JSON.stringify(user),{headers: this.headers})
+      .map(res => res.json() as UserInfo).catch(this.handleError);
   }
 
   updateUser(user: UserInfo): void {
     this.http.put(this.api_url, JSON.stringify(user), {headers: this.headers})
-      .mapTo(user).subscribe(user => {
+      .mapTo(user).catch(this.handleError).subscribe(user => {
         this.store$.dispatch({type: UPDATE_USER, payload: user});
         this.store$.dispatch({type: UPDATE_AUTH, payload: {
           user: user,

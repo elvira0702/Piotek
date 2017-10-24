@@ -20,8 +20,8 @@
                   </div>
                   <input type="text" class="form-control pull-right" formControlName="quitDate" id="datepicker">
                 </div>
-                <div class="help-block" *ngIf="quitForm.getError('required','quitDate') && quitForm.get('quitDate').touched">请填写离职日期！</div>
-                <div class="help-block" *ngIf="quitForm.getError('pattern','quitDate')">请按格式填写日期！</div>
+                <div class="help-block" *ngIf="quitForm.getError('required',['quitDate']) && quitForm.get('quitDate').touched">请填写离职日期！</div>
+                <div class="help-block" *ngIf="quitForm.getError('pattern',['quitDate'])">请按格式填写日期！</div>
               </div>
               <!-- /.input group -->
             </div>
@@ -35,7 +35,7 @@
               <div class="col-xs-12">
                 <label>离职原因</label>
                 <textarea class="form-control" formControlName="quitReason" rows="3"></textarea>
-                <div class="help-block" *ngIf="quitForm.getError('required','quitReason') && quitForm.get('quitReason').touched">请填写离职原因!</div>
+                <div class="help-block" *ngIf="quitForm.getError('required',['quitReason']) && quitForm.get('quitReason').touched">请填写离职原因!</div>
               </div>
             </div>
           </div>
@@ -48,7 +48,7 @@
 
         <form [formGroup]="outForm" class="form-horizontal" [hidden]="type!='out'" (ngSubmit)="save()">
           <div class="box-body">
-            <div class="form-group" formGroupName="timeArea" [class.has-error]="outForm.getError('time','timeArea')">
+            <div class="form-group" formGroupName="timeArea" [class.has-error]="outForm.getError('time',['timeArea'])">
               <div class="col-xs-12 col-md-4">
                 <label>外出时间</label>
                 <div class="bootstrap-timepicker">
@@ -73,14 +73,14 @@
                   <!-- /.input group -->
                 </div>
               </div>
-              <div class="col-xs-12 help-block" *ngIf="outForm.getError('time','timeArea')">{{outForm.getError('time','timeArea')?.desc}}</div>
+              <div class="col-xs-12 help-block" *ngIf="outForm.getError('time',['timeArea'])">{{outForm.getError('time',['timeArea'])?.desc}}</div>
             </div>
             <br>
             <div class="form-group" [class.has-error]="outForm.get('outFor').invalid && outForm.get('outFor').touched">
               <div class="col-xs-12">
                 <label>外出事由</label>
                 <textarea class="form-control" formControlName="outFor" rows="3"></textarea>
-                <div class="help-block" *ngIf="outForm.getError('required','outFor') && outForm.get('outFor').touched">请填写外出事由！</div>
+                <div class="help-block" *ngIf="outForm.getError('required',['outFor']) && outForm.get('outFor').touched">请填写外出事由！</div>
               </div>
             </div>
           </div>
@@ -118,7 +118,7 @@
               <div class="col-xs-12">
                 <label>申请理由</label>
                 <textarea class="form-control" formControlName="holiFor" rows="3"></textarea>
-                <div class="help-block" *ngIf="holiForm.getError('required','holiFor') && holiForm.get('holiFor').touched">请填写申请理由！</div>
+                <div class="help-block" *ngIf="holiForm.getError('required',['holiFor']) && holiForm.get('holiFor').touched">请填写申请理由！</div>
               </div>
             </div>
           </div>

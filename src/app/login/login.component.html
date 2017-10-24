@@ -20,8 +20,8 @@
         <div class="help-block">
           {{formErrors['password']}}
         </div>
-        <div class="help-block" style="color: red" *ngIf="auth?.hasError">
-          {{auth?.errMsg}}
+        <div class="help-block" style="color: red" *ngIf="(auth|async)?.hasError">
+          {{(auth|async)?.errMsg}}
         </div>
       </div>
       <div class="row">

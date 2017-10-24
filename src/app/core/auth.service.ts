@@ -17,6 +17,7 @@ import {
   REGISTER_FAILED_NOT_HIRED
 } from '../actions/auth.actions'
 import {EmployeeService} from './employee.service';
+import {getCookie, removeCookie, savelocalStorage, setCookie, showlocalStorage} from '../storage/storage';
 
 @Injectable()
 export class AuthService {
@@ -33,6 +34,9 @@ export class AuthService {
   }
 
   unAuth(): void {
+    savelocalStorage('id', undefined);
+    savelocalStorage('password', undefined);
+    this.router.navigateByUrl('/login');
     this.store$.dispatch({type: LOGOUT});
   }
 
@@ -42,7 +46,7 @@ export class AuthService {
         this.store$.dispatch({type: REGISTER_FAILED_EXISTED});
       } else {
         this.employeeService.getEmployee(userId).subscribe(employee => {
-          if (employee = null) {
+          if (employee === null) {
             this.store$.dispatch({type: REGISTER_FAILED_NOT_HIRED});
           } else {
             let toAddUser = {
@@ -53,20 +57,26 @@ export class AuthService {
               password: password,
               tel: '未填写',
               email: '未填写',
-              photo: '未填写',
+              photo: 'assets/img/userimg.png',
               edu: '未填写',
               loc: '未填写',
               skill: '未填写',
               motto: '未填写'
             };
-            this.store$.dispatch({
-              type: REGISTER, payload: {
-                user: toAddUser,
-                hasError: false,
-                errMsg: null,
-                redirectUrl: null
+            this.userService.addUser(toAddUser).toPromise().then(
+              user => {
+                if (user) {
+                  this.store$.dispatch({
+                    type: REGISTER, payload: {
+                      user: toAddUser,
+                      hasError: false,
+                      errMsg: null
+                    }
+                  });
+                  this.router.navigateByUrl('/employee/home');
+                }
               }
-            });
+            );
           }
         })
       }
@@ -75,22 +85,29 @@ export class AuthService {
 
   loginWithCredentials(userId: string, password: string): void {
     this.userService.getUser(userId).subscribe(user => {
-        if (null === user) {
-          this.store$.dispatch({type: LOGIN_FAILED_NOT_EXISTED});
-        }
-        else if (password !== user.password) {
-          this.store$.dispatch({type: LOGIN_FAILED_NOT_MATCH});
+      if (null === user) {
+        this.store$.dispatch({type: LOGIN_FAILED_NOT_EXISTED});
+      }
+      else if (password !== user.password) {
+        this.store$.dispatch({type: LOGIN_FAILED_NOT_MATCH});
+      } else {
+        this.store$.dispatch({
+          type: LOGIN, payload: {
+            user: user,
+            hasError: false,
+            errMsg: null
+          }
+        });
+        savelocalStorage('id', user.userId);
+        savelocalStorage('password', user.password);
+        const url = showlocalStorage('redirectUrl');
+        if (url && url != null) {
+          this.router.navigateByUrl(url);
+          savelocalStorage('redirectUrl', '/employee/home');
         } else {
-          this.store$.dispatch({
-            type: LOGIN, payload: {
-              user: user,
-              hasError: false,
-              errMsg: null,
-              redirectUrl: null
-            }
-          });
-          this.router.navigate(['/employee']);
+          this.router.navigateByUrl('/employee/home');
         }
-      });
+      }
+    });
   }
 }

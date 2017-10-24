@@ -10,7 +10,7 @@ export interface Auth {
   user?: UserInfo;
   hasError: boolean;
   errMsg?: string;
-  redirectUrl?: string;
+  redirectUrl?: any;
 }
 export interface EmployeeInfo {
   userId: string;

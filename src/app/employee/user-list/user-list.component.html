@@ -1,16 +1,16 @@
-<div class="min-height">
+<div>
   <!-- USERS LIST -->
   <div class="box" [ngClass]="{'box-primary':isList,'box-danger':!isList}">
     <div class="box-header with-border">
       <h3 class="box-title">部门：
         <div class="btn-group">
-          <button type="button" class="btn btn-default">{{curDep}}</button>
+          <button type="button" class="btn btn-default" #dep>{{curDep}}</button>
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li *ngFor="let department of departments" [routerLink]="['/',department,{relateTo:this.route}]"><a href="javascript:;">{{department}}</a>
+            <li *ngFor="let department of departments" (click)="curDep = department"><a href="javascript:;">{{department}}</a>
             </li>
           </ul>
         </div>
@@ -24,53 +24,54 @@
           class="fa fa-square text-red"></i></button>
       </div>
     </div>
-
-    <!-- /.box-header List-->
-    <div *ngIf="isList" class="box-body">
-      <div class="table-responsive">
-        <table class="table no-margin">
-          <thead>
-          <tr>
-            <th>工号</th>
-            <th>姓名</th>
-            <th>电话</th>
-            <th>邮箱</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let user of filterData$ | async">
-            <td>{{user.userId}}</td>
-            <td>{{user.name}}</td>
-            <td>{{user.tel}}</td>
-            <td>{{user.email}}</td>
-          </tr>
-          </tbody>
-        </table>
+    <div style="max-height: 400px;overflow: scroll">
+      <!-- /.box-header List-->
+      <div *ngIf="isList" class="box-body">
+        <div class="table-responsive">
+          <table class="table no-margin">
+            <thead>
+            <tr>
+              <th>部门</th>
+              <th>姓名</th>
+              <th>电话</th>
+              <th>邮箱</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let user of depList | async">
+              <td>{{user.dep}}</td>
+              <td>{{user.name}}</td>
+              <td>{{user.tel}}</td>
+              <td>{{user.email}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.table-responsive -->
       </div>
-      <!-- /.table-responsive -->
-    </div>
 
-    <!-- /.box-header Img-->
-    <div *ngIf="!isList" class="box-body no-padding">
-      <!-- /.box-header -->
-      <div class="box-body no-padding">
-        <ul class="users-list clearfix">
-          <li *ngFor="let user of users">
-            <img [src]=user.photo alt="User Image">
-            <b class="users-list-name">{{user.name}}</b>
-            <span class="users-list-date">电话：<span class="tel">{{user.tel}}</span></span>
-            <span class="users-list-date">邮箱：<span class="email">{{user.email}}</span></span>
-            <span class="users-list-date">工号：<span class="id">{{user.userId}}</span></span>
-          </li>
-        </ul>
-        <!-- /.users-list -->
+      <!-- /.box-header Img-->
+      <div *ngIf="!isList" class="box-body no-padding">
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+          <ul class="users-list clearfix">
+            <li *ngFor="let user of depList | async">
+              <img [src]=user.photo alt="User Image">
+              <b class="users-list-name">{{user.name}}</b>
+              <span class="users-list-date">电话：<span class="tel">{{user.tel}}</span></span>
+              <span class="users-list-date">邮箱：<span class="email">{{user.email}}</span></span>
+              <span class="users-list-date">部门：<span class="id">{{user.dep}}</span></span>
+            </li>
+          </ul>
+          <!-- /.users-list -->
+        </div>
       </div>
+      <!-- /.box-body -->
+      <div class="box-footer text-center">
+        没有更多内容了
+      </div>
+      <!-- /.box-footer -->
     </div>
-    <!-- /.box-body -->
-    <div class="box-footer text-center">
-      没有更多内容了
-    </div>
-    <!-- /.box-footer -->
   </div>
   <!--/.box -->
 </div>
