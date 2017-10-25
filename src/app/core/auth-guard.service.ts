@@ -36,7 +36,6 @@ export class AuthGuardService implements CanActivate, CanLoad {
     let url = `/${route.path}`;
     const isTrue = this.store$.select(appState => appState.auth)
       .map(auth => !auth.hasError);
-    console.log(isTrue);
     if (!isTrue) {
       this.router.navigateByUrl('/login');
     }

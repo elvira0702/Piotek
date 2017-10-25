@@ -5,7 +5,6 @@ import {AppComponent} from './app.component';
 import {RegisterComponent} from './register/register.component';
 import {LoginComponent} from './login/login.component';
 import {Page404Component} from './page404/page404.component';
-import {LoginGuard} from './guard/login.guard';
 import {LockScreenComponent } from './lock-screen/lock-screen.component';
 import {EmployeeModule} from './employee/employee.module';
 import {SelectivePreloadingStrategy} from './preload/selective-preloading-strategy';
@@ -28,7 +27,7 @@ import {SharedModule} from './shared/shared.module';
     SharedModule,
     AppRoutingModule
   ],
-  providers: [LoginGuard, SelectivePreloadingStrategy],
+  providers: [SelectivePreloadingStrategy],
   bootstrap: [AppComponent]
 })
 export class AppModule {

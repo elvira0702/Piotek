@@ -1,5 +1,4 @@
 import {Injectable, Inject} from '@angular/core';
-import {Http, Headers, Response} from '@angular/http';
 
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
@@ -17,13 +16,12 @@ import {
   REGISTER_FAILED_NOT_HIRED
 } from '../actions/auth.actions'
 import {EmployeeService} from './employee.service';
-import {getCookie, removeCookie, savelocalStorage, setCookie, showlocalStorage} from '../storage/storage';
+import {savelocalStorage, showlocalStorage} from '../storage/storage';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private http: Http,
-              private userService: UserService,
+  constructor(private userService: UserService,
               private store$: Store<AppState>,
               private router: Router,
               private employeeService: EmployeeService) {
@@ -42,11 +40,11 @@ export class AuthService {
 
   register(userId: string, password: string): void {
     this.userService.getUser(userId).subscribe(user => {
-      if (user != null) {
+      if (user.userId != null) {
         this.store$.dispatch({type: REGISTER_FAILED_EXISTED});
       } else {
         this.employeeService.getEmployee(userId).subscribe(employee => {
-          if (employee === null) {
+          if (employee.userId === 'null') {
             this.store$.dispatch({type: REGISTER_FAILED_NOT_HIRED});
           } else {
             let toAddUser = {
@@ -70,7 +68,7 @@ export class AuthService {
                     type: REGISTER, payload: {
                       user: toAddUser,
                       hasError: false,
-                      errMsg: null
+                      errMsg: '注册成功！'
                     }
                   });
                   this.router.navigateByUrl('/employee/home');
@@ -85,7 +83,7 @@ export class AuthService {
 
   loginWithCredentials(userId: string, password: string): void {
     this.userService.getUser(userId).subscribe(user => {
-      if (null === user) {
+      if (user.userId === 'null') {
         this.store$.dispatch({type: LOGIN_FAILED_NOT_EXISTED});
       }
       else if (password !== user.password) {
@@ -95,7 +93,7 @@ export class AuthService {
           type: LOGIN, payload: {
             user: user,
             hasError: false,
-            errMsg: null
+            errMsg: '登录成功！'
           }
         });
         savelocalStorage('id', user.userId);

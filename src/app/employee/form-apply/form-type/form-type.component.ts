@@ -49,8 +49,8 @@ export class FormTypeComponent implements OnInit, DoCheck, OnDestroy {
     });
     this.outForm = fb.group({
       timeArea: fb.group({
-        outTime: ['', [Validators.required, Validators.pattern(/^(0[0-9]|1[0-2]):([0-5][0-9])\s(AM|PM)$/)]],
-        returnTime: ['', [Validators.required, Validators.pattern(/^(0[0-9]|1[0-2]):([0-5][0-9])\s(AM|PM)$/)]]
+        outTime: ['', [Validators.required, Validators.pattern(/^([1-9]|1[0-2]):([0-5][0-9])\s(AM|PM)$/)]],
+        returnTime: ['', [Validators.required, Validators.pattern(/^([1-9]|1[0-2]):([0-5][0-9])\s(AM|PM)$/)]]
       }, {validator: timeValidator}),
       outFor: ['', Validators.required]
     });

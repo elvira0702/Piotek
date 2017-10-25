@@ -43,7 +43,7 @@ export class WorkListComponent implements OnInit, DoCheck, OnDestroy {
       things: ['', [Validators.required, Validators.maxLength(20)]],
       setTime: fb.group({
         date: ['', [Validators.required, Validators.pattern(/^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/)]],
-        time: ['', [Validators.required, Validators.pattern(/^(0[0-9]|1[0-2]):([0-5][0-9])\s(AM|PM)$/)]]
+        time: ['', [Validators.required, Validators.pattern(/^([1-9]|1[0-2]):([0-5][0-9])\s(AM|PM)$/)]]
       }, {validator: dateValidator})
     });
   }

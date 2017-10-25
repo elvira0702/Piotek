@@ -3,10 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '../core/auth.service';
 import {Auth} from '../domain/entities';
-import {AppState} from '../domain/state';
-import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {savelocalStorage, showlocalStorage} from '../storage/storage';
 
 declare var $: any;
 

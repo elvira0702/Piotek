@@ -17,7 +17,8 @@ const appRoutes: Routes = [
     data: {preload: true},
     canLoad: [AuthGuardService]
   },
-  {path: '**', component: Page404Component}
+  {path: '404', component: Page404Component},
+  {path: '**', redirectTo:'/404'}
 ];
 
 @NgModule({

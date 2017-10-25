@@ -20,18 +20,18 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-        "../node_modules/admin-lte/bootstrap/css/bootstrap.min.css",
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/admin-lte/dist/css/AdminLTE.css",
         "../node_modules/admin-lte/dist/css/skins/_all-skins.min.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
-        "../node_modules/admin-lte/bootstrap/js/bootstrap.min.js",
-        "../node_modules/admin-lte/plugins/daterangepicker/moment.min.js",
-        "../node_modules/admin-lte/plugins/daterangepicker/daterangepicker.js",
-        "../node_modules/admin-lte/plugins/datepicker/bootstrap-datepicker.js",
-        "../node_modules/admin-lte/plugins/timepicker/bootstrap-timepicker.min.js",
-        "../node_modules/admin-lte/dist/js/app.js"
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "../node_modules/moment/min/moment.min.js",
+        "../node_modules/bootstrap-daterangepicker/daterangepicker.js",
+        "../node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js",
+        "../node_modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js",
+        "../node_modules/admin-lte/dist/js/adminlte.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

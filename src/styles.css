@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/font-awesome/css/font-awesome.min.css";
 @import "../node_modules/ionicons/dist/css/ionicons.min.css";
-@import "../node_modules/admin-lte/plugins/daterangepicker/daterangepicker.css";
-@import "../node_modules/admin-lte/plugins/datepicker/datepicker3.css";
-@import "../node_modules/admin-lte/plugins/timepicker/bootstrap-timepicker.min.css";
+@import "../node_modules/bootstrap-daterangepicker/daterangepicker.css";
+@import "../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css";
+@import "../node_modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css";
 .loading{
   width: 100%;
   height:100%;

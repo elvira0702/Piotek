@@ -1,8 +1,9 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
 import 'rxjs/add/operator/filter';
 import {UserInfo} from '../domain/entities';
 import {AuthService} from '../core/auth.service';
+import {Subscription} from 'rxjs';
 
 declare var $: any;
 
@@ -12,12 +13,13 @@ declare var $: any;
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.css']
 })
-export class EmployeeComponent implements OnInit, DoCheck {
+export class EmployeeComponent implements OnInit, DoCheck, OnDestroy {
 
   public menus: Array<Menu>;
   public currUrl;
   public title = ['', ''];
   public currUser: UserInfo;
+  subscription: Subscription;
 
   constructor(private location: Location, private authService: AuthService) {
     this.menus = [
@@ -34,12 +36,12 @@ export class EmployeeComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
-    this.authService.getAuth().subscribe(auth=> {
+    this.subscription = this.authService.getAuth().subscribe(auth=> {
       this.currUser = auth.user;
     });
-    if ($.AdminLTE.controlSidebar) {
+    /*if ($.AdminLTE.controlSidebar) {
       $.AdminLTE.controlSidebar.activate();
-    }
+    }*/
   }
 
   ngDoCheck(): void {
@@ -47,6 +49,10 @@ export class EmployeeComponent implements OnInit, DoCheck {
       this.currUrl = this.location.path();
       this.title = this.setTitle(this.menus, this.currUrl);
     }
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 
   setTitle(menus: Array<Menu>, url) {

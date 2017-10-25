@@ -54,8 +54,7 @@ export function timeValidator(group: FormGroup): any {
     if (returnTime.value.substr(-2, 2) === 'PM') {
       returnArr[0] = parseInt(returnArr[0]) + 12;
     }
-    valid = (outArr[0] + outArr[1]) <= (returnArr[0] + returnArr[1]);
-
+    valid = parseInt(outArr[0] + outArr[1]) <= parseInt(returnArr[0] + returnArr[1]);
   }
   return valid ? null : {time: {desc: '返回时间不能早于外出时间！'}};
 }

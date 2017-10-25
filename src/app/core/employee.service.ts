@@ -16,10 +16,7 @@ export class EmployeeService {
   getEmployee(userId: string): Observable<EmployeeInfo> {
     const url = `${this.api_url}/${userId}`;
     return this.http.get(url)
-      .map(res => {
-        let Employees = res.json() as EmployeeInfo[];
-        return (Employees.length > 0) ? Employees[0] : null;
-      });
+      .map(res => res.json() as EmployeeInfo);
   }
 
   private handleError(error: Response) {

@@ -2,12 +2,12 @@ import {Injectable} from '@angular/core';
 
 import {Http, Headers, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/Rx'
 
 import {UserInfo} from '../domain/entities';
 import {Store} from '@ngrx/store';
 import {AppState} from '../domain/state';
 import {UPDATE_USER} from '../actions/user.actions';
-import {UPDATE_AUTH} from '../actions/auth.actions';
 
 @Injectable()
 export class UserService {
@@ -20,10 +20,7 @@ export class UserService {
 
   getUser(userId: string): Observable<UserInfo> {
     const url = `${this.api_url}/${userId}`;
-    return this.http.get(url).map(res => {
-        let Users = res.json() as UserInfo[];
-        return (Users.length > 0) ? Users[0] : null;
-      }).catch(this.handleError);
+    return this.http.get(url).map(res => res.json() as UserInfo).catch(this.handleError);
   }
 
   getUsers(): Observable<UserInfo[]> {
@@ -38,14 +35,8 @@ export class UserService {
 
   updateUser(user: UserInfo): void {
     this.http.put(this.api_url, JSON.stringify(user), {headers: this.headers})
-      .mapTo(user).catch(this.handleError).subscribe(user => {
+      .mapTo(user).subscribe(user => {
         this.store$.dispatch({type: UPDATE_USER, payload: user});
-        this.store$.dispatch({type: UPDATE_AUTH, payload: {
-          user: user,
-          hasError: false,
-          errMsg: null,
-          redirectUrl: null
-        }})
       });
   }
 

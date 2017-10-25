@@ -26,7 +26,8 @@ const employeeRoutes: Routes = [
         ]
       },
       {path: 'self-info', component: SelfInfoComponent},
-      {path: 'work-list', component: WorkListComponent}
+      {path: 'work-list', component: WorkListComponent},
+      {path: '**', redirectTo:'/404'}
     ],
     canActivate: [AuthGuardService],
   }
