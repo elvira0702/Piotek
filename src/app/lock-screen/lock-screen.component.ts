@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {removeCookie} from '../storage/storage';
+import {removeCookie, savelocalStorage} from '../storage/storage';
 import {UserInfo} from '../domain/entities';
 import {AuthService} from '../core/auth.service';
 
@@ -31,9 +31,13 @@ export class LockScreenComponent implements OnInit {
   }
 
   getIn() {
-    const password = this.lockForm.get('password').value;
-    if (password === this.currUser.password) {
+    const id = this.currUser.userId;
+    const password = this.currUser.password;
+    const psword = this.lockForm.get('password').value;
+    if (psword === password) {
       this.error = false;
+      savelocalStorage('id',id);
+      savelocalStorage('password',password);
       this.router.navigateByUrl(this.url);
     }else{
       this.error = true;
@@ -41,7 +45,6 @@ export class LockScreenComponent implements OnInit {
   }
 
   login(){
-    removeCookie('userId');
     this.router.navigateByUrl('/login');
   }
 

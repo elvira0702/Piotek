@@ -3,11 +3,12 @@ import {Observable} from 'rxjs/Observable';
 import {EmployeeInfo} from '../domain/entities';
 import {Injectable} from '@angular/core';
 import {Http, Headers, Response} from '@angular/http';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class EmployeeService {
 
-  private api_url = 'api/employeeInfo';
+  private api_url = environment.apiUrl + 'api/employeeInfo';
   private headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http) {

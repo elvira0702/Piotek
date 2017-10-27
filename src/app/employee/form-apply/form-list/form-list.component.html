@@ -16,23 +16,18 @@
         </div>
       </div>
       <!-- /.box-header -->
-      <div class="box-body table-responsive no-padding">
+      <div class="box-body table-responsive no-padding" style="max-height: 400px;overflow-y: auto;overflow-x: auto">
         <table class="table table-hover">
           <tr>
             <th>表单号</th>
             <th>表单类型</th>
             <th>处理进度</th>
-            <th>申请理由</th>
           </tr>
-          <tr *ngFor="let list of pageList;">
+          <tr *ngFor="let list of pageList;" style="cursor: pointer" (click)="show(list)">
             <td>{{list.id}}</td>
             <td>{{list.type}}</td>
             <td><span class="label"
                       [ngClass]="{'label-warning':list.state==='申请中','label-success':list.state==='已完成','label-danger':list.state==='已退回'}">{{list.state}}</span>
-            </td>
-            <td>{{list.reason}}</td>
-            <td>
-              <button class="btn btn-xs btn-warning" (click)="show(list)">查看</button>
             </td>
           </tr>
         </table>

@@ -6,10 +6,11 @@ import {Observable} from 'rxjs';
 import {Todo} from '../../domain/entities';
 import {ADD_TODO, REMOVE_TODO, TOGGLE_TODO, UPDATE_TODO} from '../../actions/todo.actions';
 import {UUID} from 'angular-uuid';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class TodoService {
-  private api_url = 'api/todo';
+  private api_url = environment.apiUrl + 'api/todo';
   private headers = new Headers({'Content-Type': 'application/json'});
   private auth$: Observable<string>;
 

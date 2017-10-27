@@ -6,10 +6,11 @@ import {Store} from '@ngrx/store';
 import {ADD_FORM} from '../../actions/form.actions';
 import {Router} from '@angular/router';
 import {Form} from '../../domain/entities';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class FormService {
-  private api_url = 'api/formList';
+  private api_url = environment.apiUrl + 'api/formList';
   private headers = new Headers({'Content-Type': 'application/json'});
   private auth$: Observable<string>;
 
@@ -25,7 +26,7 @@ export class FormService {
   }
 
   getFormNumber(formDate, callback) {
-    this.http.get('/api/formApply/' + formDate).subscribe(formNumber => {
+    this.http.get(environment.apiUrl +'api/formApply/' + formDate).subscribe(formNumber => {
       callback(formNumber.json())
     })
   }

@@ -7,6 +7,7 @@ import {Observable, Subscription} from 'rxjs';
 import {AppState} from '../../domain/state';
 import {Store} from '@ngrx/store';
 import {AuthService} from '../../core/auth.service';
+import {savelocalStorage} from '../../storage/storage';
 
 @Component({
   selector: 'app-header',
@@ -28,7 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.socketService.createObservableSocket('ws://47.95.219.65:85')
+    this.socketService.createObservableSocket('ws://www.elviracheng.com:85')
       .map(event => JSON.parse(event))
       .subscribe(
         event => this.messageCount = event.messageCount
@@ -44,6 +45,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   lockScreen() {
+    savelocalStorage('id',undefined);
+    savelocalStorage('password',undefined);
     const url = this.location.path();
     this.router.navigate(['/lock-screen', url]);
   }

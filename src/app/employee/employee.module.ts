@@ -15,6 +15,8 @@ import {FormTypeComponent} from './form-apply/form-type/form-type.component';
 import {SharedModule} from '../shared/shared.module';
 import {TodoService} from './work-list/todo.service';
 import {EmployeeRoutingModule} from './employee-routing.module';
+import { ImageCropComponent } from './self-info/image-crop/image-crop.component';
+import {ImageService} from './self-info/image-crop/image.service';
 
 @NgModule({
   imports: [
@@ -32,9 +34,10 @@ import {EmployeeRoutingModule} from './employee-routing.module';
     SidebarComponent,
     FormApplyComponent,
     FormListComponent,
-    FormTypeComponent
+    FormTypeComponent,
+    ImageCropComponent
   ],
-  providers: [FormService, SocketService, TodoService]
+  providers: [FormService, SocketService, TodoService, ImageService]
 })
 export class EmployeeModule {
 }

@@ -6,7 +6,6 @@ import {Store} from '@ngrx/store';
 import {Auth, UserInfo} from '../../domain/entities';
 import {UserService} from '../../core/user.service';
 
-
 @Component({
   selector: 'app-self-info',
   templateUrl: './self-info.component.html',
@@ -52,7 +51,7 @@ export class SelfInfoComponent implements OnInit, OnDestroy {
           motto: [auth.user.motto]
         });
       }
-    })
+    });
   }
 
   ngOnDestroy(): void {

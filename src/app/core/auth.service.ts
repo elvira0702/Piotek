@@ -40,7 +40,7 @@ export class AuthService {
 
   register(userId: string, password: string): void {
     this.userService.getUser(userId).subscribe(user => {
-      if (user.userId != null) {
+      if (user.userId != 'null') {
         this.store$.dispatch({type: REGISTER_FAILED_EXISTED});
       } else {
         this.employeeService.getEmployee(userId).subscribe(employee => {
@@ -71,6 +71,8 @@ export class AuthService {
                       errMsg: '注册成功！'
                     }
                   });
+                  savelocalStorage('id', toAddUser.userId);
+                  savelocalStorage('password', toAddUser.password);
                   this.router.navigateByUrl('/employee/home');
                 }
               }
