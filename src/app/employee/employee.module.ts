@@ -17,11 +17,13 @@ import {TodoService} from './work-list/todo.service';
 import {EmployeeRoutingModule} from './employee-routing.module';
 import { ImageCropComponent } from './self-info/image-crop/image-crop.component';
 import {ImageService} from './self-info/image-crop/image.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
     SharedModule,
-    EmployeeRoutingModule
+    EmployeeRoutingModule,
+    BrowserAnimationsModule
   ],
   declarations: [
     EmployeeComponent,

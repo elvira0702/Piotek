@@ -90,6 +90,8 @@ export class RegisterComponent implements OnInit, DoCheck {
       this.authService.getAuth().subscribe(auth=>{
         this.auth = auth;
       });
+    } else if(!this.formModel.get('agreeState').valid){
+      alert('请同意百硕电脑注册协议！');
     }
   }
 

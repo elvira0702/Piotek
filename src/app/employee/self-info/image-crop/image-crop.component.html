@@ -1,0 +1,44 @@
+<img class="profile-user-img img-responsive img-circle reset-img" [src]="currUser?.photo" data-toggle="modal"
+     data-target="#myModal" alt="User profile picture" (click)="init?null:cropper.replace(currUser?.photo)">
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">更换头像</h4>
+      </div>
+      <div class="modal-body row">
+        <div class="col-xs-8 col-md-7">
+          <img #image id="image">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-warning btn-sm operate" (click)="zoom(0.1)"><span
+              class="fa fa-search-plus"></span></button>
+            <button type="button" class="btn btn-warning btn-sm operate" (click)="zoom(-0.1)"><span
+              class="fa fa-search-minus"></span></button>
+            <button type="button" class="btn btn-warning btn-sm operate" (click)="rotate(90)"><span
+              class="fa fa-rotate-right"></span></button>
+            <button type="button" class="btn btn-warning btn-sm operate" (click)="rotate(-90)"><span
+              class="fa fa-rotate-left"></span></button>
+            <p *ngIf="tooLarge" style="color: red">图片尺寸过大（2M)！当前大小{{size/1024 | number:'1.1-1'}}kb!</p>
+            <p *ngIf="success" style="color: red">上传成功！</p>
+          </div>
+        </div>
+        <div class="col-xs-4 col-md-5">
+          <img [src]="currUser?.photo" style="width: 95%;margin-left: 5px">
+          <h4 style="text-align: center">当前头像</h4>
+          <div style="text-align: center">
+            <button type="button" class="btn btn-warning btn-sm operate" (click)="reset()">重置</button>
+            <button type="button" class="btn btn-warning btn-sm operate" (click)="cropImg()">上传</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="file pull-left">
+          <button class="btn btn-primary change-img">选择</button>
+          <input type="file" class="choose-img" accept="image/*" (change)="getImgUrl($event)">
+        </div>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="success=false">关闭</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal -->
+</div>

@@ -1,6 +1,6 @@
-<div>
+<div style="width: 100%">
   <!-- USERS LIST -->
-  <div class="box" [ngClass]="{'box-primary':isList,'box-danger':!isList}">
+  <div class="box contact-box" [ngClass]="{'box-primary':isList,'box-danger':!isList}">
     <div class="box-header with-border">
       <h3 class="box-title">部门：
         <div class="btn-group">
@@ -28,7 +28,7 @@
       <!-- /.box-header List-->
       <div *ngIf="isList" class="box-body">
         <div class="table-responsive">
-          <table class="table no-margin">
+          <table class="table no-margin table-hover">
             <thead>
             <tr>
               <th>部门</th>
@@ -38,7 +38,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let user of depList | async">
+            <tr class="show-hover" style="cursor: pointer" *ngFor="let user of depList | async" (click)="showDetail(user)">
               <td>{{user.dep}}</td>
               <td>{{user.name}}</td>
               <td>{{user.tel}}</td>
@@ -55,12 +55,13 @@
         <!-- /.box-header -->
         <div class="box-body no-padding">
           <ul class="users-list clearfix">
-            <li *ngFor="let user of depList | async">
-              <img [src]=user.photo alt="User Image">
+            <li class="user-info" style="cursor: pointer" *ngFor="let user of depList | async" (click)="showDetail(user)">
+              <img [src]=user.photo alt="User Image" style="min-width: 65px;width: 65%;max-width: 120px">
               <b class="users-list-name">{{user.name}}</b>
               <span class="users-list-date">电话：<span class="tel">{{user.tel}}</span></span>
               <span class="users-list-date">邮箱：<span class="email">{{user.email}}</span></span>
               <span class="users-list-date">部门：<span class="id">{{user.dep}}</span></span>
+              <!-- /.box-body -->
             </li>
           </ul>
           <!-- /.users-list -->
@@ -74,6 +75,32 @@
     </div>
   </div>
   <!--/.box -->
+  <div class="show" *ngIf="show">
+    <div class="box detail" @zoomIn @zoomOut [ngClass]="{'box-primary':isList,'box-danger':!isList}">
+      <div class="box-body box-profile" *ngIf="show">
+        <button type="button" class="close" (click)="show=false">&times;</button>
+        <img class="profile-user-img img-responsive img-circle" [src]="showUser.photo"
+             alt="User profile picture">
+
+        <h3 class="profile-username text-center">{{showUser.name}}</h3>
+
+        <p class="text-muted text-center">{{showUser.dep}}</p>
+
+        <ul class="list-group list-group-unbordered">
+          <li class="list-group-item">
+            <b>电话</b> <span class="pull-right">{{showUser.tel}}</span>
+          </li>
+          <li class="list-group-item">
+            <b>邮箱</b> <span class="pull-right">{{showUser.email}}</span>
+          </li>
+          <li class="list-group-item">
+            <b>座右铭</b> <span class="pull-right">{{showUser.motto}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- /.box -->
+  </div>
 </div>
 
 

@@ -1,0 +1,36 @@
+@import "../../../../../node_modules/cropperjs/dist/cropper.min.css";
+
+#image {
+  width: 90%;
+  height: auto;
+  max-height: 300px;
+}
+
+.reset-img {
+  cursor: pointer;
+}
+
+.reset-img:hover {
+  opacity: 0.7;
+}
+
+.file{
+  position: relative;
+  width: 40px;
+}
+.file .choose-img{
+  position: absolute;
+  width: 55px;
+  height: 35px;
+  z-index: 999;
+  outline: none;
+  opacity: 0;
+}
+.file .change-img{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.operate{
+  margin: 5px;
+}

@@ -38,8 +38,7 @@ export class LoginComponent implements OnInit, DoCheck {
   ngOnInit() {
     this.loginForm = this.fb.group({
       id: ['', Validators.required],
-      password: ['', Validators.required],
-      rememberState: [true]
+      password: ['', Validators.required]
     });
   }
 
